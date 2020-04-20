@@ -3,7 +3,8 @@ import { createUseStyles } from 'react-jss';
 import { Button } from '@material-ui/core';
 
 type HomePageProps = {
-  handleAuth: (token: string | null) => void
+  loggedIn?: boolean,
+  onLoggedIn: (token: string | null) => void
 };
 
 const useStyles = createUseStyles({
@@ -15,45 +16,30 @@ const useStyles = createUseStyles({
   },
 });
 
-const HomePage = ({ handleAuth }: HomePageProps) => {
-  const [accessToken, setAccessToken] = React.useState<string | null>(null);
+const HomePage = ({ loggedIn, onLoggedIn }: HomePageProps) => {
   const classes = useStyles();
 
-  const getHashParams = (): Object => {
-    const hashParams: { [index:string]: string } = {};
-    let e: RegExpExecArray | null;
-    const r = /([^&;=]+)=?([^&;]*)/g;
-    const q = window.location.hash.substring(1);
-    e = r.exec(q);
-    while (e) {
-      hashParams[e[1]] = decodeURIComponent(e[2]);
-      e = r.exec(q);
-    }
-    return hashParams;
-  };
-
-  const getAccessToken = () => {
+  const handleLoggedIn = () => {
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search.slice(1));
     if (params.has('access_token')) {
       const token = params.get('access_token');
-      handleAuth(token);
-      setAccessToken(token);
+      onLoggedIn(token);
     }
   };
 
   React.useEffect(() => {
-    getAccessToken();
-    const params = getHashParams();
-    console.log('Params', params);
+    handleLoggedIn();
   });
+
   return (
     <>
       <div className={classes.header}>
         Hello, this is the homepage.
       </div>
       <div className={classes.loginButton}>
-        {!accessToken && <Button href="/login">Login</Button>}
+        {!loggedIn && <Button href="/login">Login</Button>}
+        {loggedIn && <Button href="/profile">Profile</Button>}
       </div>
     </>
   );

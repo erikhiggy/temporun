@@ -1,21 +1,19 @@
 import React from 'react';
 import {
-  BrowserRouter as Router, Switch, Route, Redirect,
+  BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
 import HomePage from './components/HomePage/HomePage';
 import LoginPage from './components/LoginPage/LoginPage';
 import Profile from './components/Profile/Profile';
 
 const App = () => {
-  const [accessToken, setAccessToken] = React.useState<string | null>(null);
+  const [loggedIn, setLoggedIn] = React.useState<boolean>(false);
 
-  const handleAuth = (token: string | null) => {
+  const handleLoggedIn = (token: string | null): void => {
     if (token) {
-      setAccessToken(token);
+      setLoggedIn(true);
     }
   };
-
-  const renderProfile = () => <Profile accessToken={accessToken} />;
 
   return (
     <Router>
@@ -24,10 +22,12 @@ const App = () => {
           <Route
             exact
             path="/"
-            render={(props) => <HomePage {...props} handleAuth={handleAuth} />}
+            render={(props) => (
+              <HomePage {...props} loggedIn={loggedIn} onLoggedIn={handleLoggedIn} />
+            )}
           />
           <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/profile" component={renderProfile} />
+          <Route exact path="/profile" component={Profile} />
         </Switch>
       </div>
     </Router>
