@@ -1,9 +1,10 @@
 import React from 'react';
 import useAxios from 'axios-hooks';
+import routes from '../../Routes';
 
 const Profile = () => {
   const [{ data, loading, error }] = useAxios({
-    url: 'http://localhost:8888/profile',
+    url: routes.profile,
   });
   if (loading) return <p>Loading..</p>;
   if (error) return <p>Error!</p>;

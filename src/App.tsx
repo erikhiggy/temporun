@@ -5,6 +5,7 @@ import {
 import HomePage from './components/HomePage/HomePage';
 import LoginPage from './components/LoginPage/LoginPage';
 import Profile from './components/Profile/Profile';
+import SongsList from './components/SongsList/SongsList';
 
 const App = () => {
   const [loggedIn, setLoggedIn] = React.useState<boolean>(false);
@@ -14,6 +15,8 @@ const App = () => {
       setLoggedIn(true);
     }
   };
+
+  const renderSongsList = () => <SongsList limit={48} bpm={140} />;
 
   return (
     <Router>
@@ -28,6 +31,7 @@ const App = () => {
           />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/profile" component={Profile} />
+          <Route exact path="/songs" component={renderSongsList} />
         </Switch>
       </div>
     </Router>
