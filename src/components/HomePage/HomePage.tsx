@@ -1,22 +1,23 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
-import { Button } from '@material-ui/core';
 
 type HomePageProps = {
-  loggedIn?: boolean,
   onLoggedIn: (token: string | null) => void
 };
 
 const useStyles = createUseStyles({
   header: {
-    margin: '10px',
+    margin: 10,
   },
   loginButton: {
-    margin: '10px',
+    margin: 10,
+  },
+  content: {
+    margin: 10,
   },
 });
 
-const HomePage = ({ loggedIn, onLoggedIn }: HomePageProps) => {
+const HomePage = ({ onLoggedIn }: HomePageProps) => {
   const classes = useStyles();
 
   const handleLoggedIn = () => {
@@ -35,11 +36,10 @@ const HomePage = ({ loggedIn, onLoggedIn }: HomePageProps) => {
   return (
     <>
       <div className={classes.header}>
-        Hello, this is the homepage.
+        Welcome to Temporun!
       </div>
-      <div className={classes.loginButton}>
-        {!loggedIn && <Button href="/login">Login</Button>}
-        {loggedIn && <Button href="/profile">Profile</Button>}
+      <div className={classes.content}>
+        Login to proceed.
       </div>
     </>
   );

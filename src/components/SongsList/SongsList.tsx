@@ -34,9 +34,15 @@ const SongsList = ({ limit, bpm }: AnalyticsProps) => {
 
   return (
     <div>
-      <h1 className={classes.header}>
-        Showing Songs for&nbsp;{bpm}&nbsp;bpm
-      </h1>
+      <div className={classes.header}>
+        {!data.length ? (
+          <h1>No songs for this bpm!</h1>
+        ) : (
+          <h1>
+            Showing Songs for&nbsp;{bpm}&nbsp;bpm
+          </h1>
+        )}
+      </div>
       {renderSongs(data)}
     </div>
   );
