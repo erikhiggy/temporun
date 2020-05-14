@@ -25,7 +25,7 @@ const Playlist = ({ url, title }: PlaylistProps) => {
   const classes = useStyles();
   return (
     <div>
-      <Card>
+      <Card className={classes.card}>
         <CardMedia className={classes.media} image={url} title="Playlist Art" />
         <CardContent>
           <Typography gutterBottom>

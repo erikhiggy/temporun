@@ -1,12 +1,33 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import { Button, Typography } from '@material-ui/core';
+import { createUseStyles } from 'react-jss';
+
+const useStyles = createUseStyles({
+  header: {
+    textAlign: 'center',
+  },
+
+  about: {
+    textAlign: 'center',
+  },
+
+  connectButtonWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+
+  connectButton: {
+    backgroundColor: 'green',
+  },
+});
 
 type HomeProps = {
   credentials?: string
 };
 
 const Home = ({ credentials }: HomeProps) => {
+  const classes = useStyles();
   const handleConnect = () => {
     window.location.href = '/connect';
   };
@@ -42,14 +63,27 @@ const Home = ({ credentials }: HomeProps) => {
   }, [credentials]);
 
   return (
-    <div>
-      Welcome to Temporun!
-      <Button onClick={handleConnect}>
-        <Typography>
-          Connect with Spotify
-        </Typography>
-      </Button>
-    </div>
+    <>
+      <div className={classes.header}>
+        <h1>Tempo Run</h1>
+      </div>
+      <div className={classes.about}>
+        <h2>Optimizing your run through data</h2>
+      </div>
+      <div className={classes.connectButtonWrapper}>
+        <Button
+          className={classes.connectButton}
+          color="primary"
+          disableRipple
+          onClick={handleConnect}
+          variant="contained"
+        >
+          <Typography>
+            Connect with Spotify
+          </Typography>
+        </Button>
+      </div>
+    </>
   );
 };
 

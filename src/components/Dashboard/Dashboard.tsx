@@ -22,8 +22,12 @@ const Dashboard = ({ credentials }: DashboardProps) => {
   });
 
   const renderPlaylists = (playlists: Array<PlaylistType>) => (
-    playlists.map((playlist: PlaylistType) => (
-      <Playlist title={playlist.name} url={playlist.images[0].url} />
+    playlists.map((playlist: PlaylistType, playlistIndex: number) => (
+      <Playlist
+        key={`playlist-${playlistIndex * 2}`}
+        title={playlist.name}
+        url={playlist.images[0].url}
+      />
     )));
 
   if (loading) return <p>Loading...</p>;
