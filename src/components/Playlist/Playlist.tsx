@@ -1,18 +1,20 @@
 import React from 'react';
-import {
-  Card, CardMedia, Typography, CardContent,
-} from '@material-ui/core';
 import { createUseStyles } from 'react-jss';
+import { Card, CardMedia, CardTitle } from '../Card/index';
 
 const useStyles = createUseStyles({
   card: {
-    height: 500,
-    width: 500,
+    border: '1px solid red',
+    height: 400,
+    width: 300,
   },
 
   media: {
-    height: 200,
-    width: 200,
+    height: 300,
+  },
+
+  title: {
+    height: 100,
   },
 });
 
@@ -26,12 +28,10 @@ const Playlist = ({ url, title }: PlaylistProps) => {
   return (
     <div>
       <Card className={classes.card}>
-        <CardMedia className={classes.media} image={url} title="Playlist Art" />
-        <CardContent>
-          <Typography gutterBottom>
-            {title}
-          </Typography>
-        </CardContent>
+        <CardMedia alt={`playlist-${title}`} className={classes.media} src={url} />
+        <CardTitle className={classes.title}>
+          {title}
+        </CardTitle>
       </Card>
     </div>
   );
