@@ -19,7 +19,9 @@ const useStyles = createUseStyles({
 });
 
 type PlaylistProps = {
+  // url of the playlist image
   url: string,
+  // title for the playlist
   title: string
 };
 

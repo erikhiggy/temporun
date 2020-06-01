@@ -3,7 +3,8 @@ import useAxios from 'axios-hooks';
 import Playlist from '../Playlist/Playlist';
 
 type DashboardProps = {
-  credentials?: string
+  // user credentials
+  credentials?: string | undefined
 };
 
 type PlaylistType = {
@@ -16,6 +17,7 @@ type ImageType = {
 };
 
 const Dashboard = ({ credentials }: DashboardProps) => {
+  if (!credentials) return null;
   const [{ data, error, loading }] = useAxios({
     url: `http://localhost:8888/user?${credentials}`,
     method: 'GET',
