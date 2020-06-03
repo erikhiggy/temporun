@@ -1,39 +1,35 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
-import { Card, CardMedia, CardTitle } from '../Card/index';
+import { Card, CardMedia } from '../Card/index';
 
 const useStyles = createUseStyles({
   card: {
-    border: '1px solid red',
-    height: 400,
+    border: '1px solid #CCC',
+    borderRadius: 3,
+    height: 300,
     width: 300,
   },
 
   media: {
     height: 300,
   },
-
-  title: {
-    height: 100,
-  },
 });
 
 type PlaylistProps = {
   // url of the playlist image
   url: string,
-  // title for the playlist
-  title: string
 };
 
-const Playlist = ({ url, title }: PlaylistProps) => {
+const Playlist = ({ url }: PlaylistProps) => {
   const classes = useStyles();
   return (
     <div>
       <Card className={classes.card}>
-        <CardMedia alt={`playlist-${title}`} className={classes.media} src={url} />
-        <CardTitle className={classes.title}>
-          {title}
-        </CardTitle>
+        <CardMedia
+          alt="playlist"
+          className={classes.media}
+          src={url}
+        />
       </Card>
     </div>
   );

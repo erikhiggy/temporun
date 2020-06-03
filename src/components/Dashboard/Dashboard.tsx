@@ -1,6 +1,25 @@
 import React from 'react';
 import useAxios from 'axios-hooks';
+import { createUseStyles } from 'react-jss';
 import Playlist from '../Playlist/Playlist';
+
+const useStyles = createUseStyles({
+  header: {
+    marginTop: 20,
+    display: 'flex',
+    justifyContent: 'space-around',
+  },
+
+  playlists: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+  },
+
+  playlist: {
+    marginBottom: 20,
+  },
+});
 
 type DashboardProps = {
   // user credentials
@@ -17,29 +36,34 @@ type ImageType = {
 };
 
 const Dashboard = ({ credentials }: DashboardProps) => {
-  if (!credentials) return null;
+  const classes = useStyles();
   const [{ data, error, loading }] = useAxios({
     url: `http://localhost:8888/user?${credentials}`,
     method: 'GET',
   });
 
+  if (!data || error || loading) {
+    return null;
+  }
+
   const renderPlaylists = (playlists: Array<PlaylistType>) => (
     playlists.map((playlist: PlaylistType, playlistIndex: number) => (
-      <Playlist
-        key={`playlist-${playlistIndex * 2}`}
-        title={playlist.name}
-        url={playlist.images[0].url}
-      />
+      <div className={classes.playlist}>
+        <Playlist
+          key={`playlist-${playlistIndex * 2}`}
+          url={playlist.images[0].url}
+        />
+      </div>
     )));
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error!</p>;
 
   const { userPlaylists } = data;
 
   return (
     <div>
-      {renderPlaylists(userPlaylists.items)}
+      <h1 className={classes.header}>Choose a playlist</h1>
+      <div className={classes.playlists}>
+        {renderPlaylists(userPlaylists.items)}
+      </div>
     </div>
   );
 };
