@@ -1,34 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useAxios from 'axios-hooks';
 import { createUseStyles } from 'react-jss';
+import { Button } from '@material-ui/core';
 import Playlist from '../Playlist/Playlist';
 
 const useStyles = createUseStyles({
+  chooseText: {
+    flex: 1,
+    fontSize: 18,
+  },
+
   header: {
-    marginTop: 20,
     display: 'flex',
-    justifyContent: 'space-around',
+    margin: '60px 20px 40px 20px',
+  },
+
+  playlistsContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    marginLeft: 20,
+  },
+
+  playlistsHeader: {
+    display: 'flex',
+    marginBottom: 20,
   },
 
   playlists: {
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
   },
 
   playlist: {
     marginBottom: 20,
+    marginRight: 20,
   },
 });
 
 type DashboardProps = {
-  // user credentials
   credentials?: string | undefined
 };
 
 type PlaylistType = {
+  id: string
   name: string,
-  images: Array<ImageType>
+  images: Array<ImageType>,
 };
 
 type ImageType = {
@@ -37,6 +53,7 @@ type ImageType = {
 
 const Dashboard = ({ credentials }: DashboardProps) => {
   const classes = useStyles();
+  const [selectedPlaylists, setSelectedPlaylists] = useState<Array<PlaylistType>>([]);
   const [{ data, error, loading }] = useAxios({
     url: `http://localhost:8888/user?${credentials}`,
     method: 'GET',
@@ -46,25 +63,60 @@ const Dashboard = ({ credentials }: DashboardProps) => {
     return null;
   }
 
-  const renderPlaylists = (playlists: Array<PlaylistType>) => (
-    playlists.map((playlist: PlaylistType, playlistIndex: number) => (
-      <div className={classes.playlist}>
-        <Playlist
-          key={`playlist-${playlistIndex * 2}`}
-          url={playlist.images[0].url}
-        />
-      </div>
-    )));
+  const addPlaylist = (playlist: PlaylistType) => {
+    setSelectedPlaylists([...selectedPlaylists, playlist]);
+  };
+
+  const removePlaylist = (playlist: PlaylistType) => {
+    const filteredPlaylists = selectedPlaylists.filter((p) => p.id !== playlist.id);
+    setSelectedPlaylists(filteredPlaylists);
+  };
+
+  const handleClick = (playlist: PlaylistType) => {
+    const playlistSelected = selectedPlaylists.find((p) => p.id === playlist.id);
+    if (!playlistSelected) {
+      addPlaylist(playlist);
+    } else {
+      removePlaylist(playlist);
+    }
+  };
+
+  const renderPlaylists = (playlists: Array<PlaylistType>) => {
+    return playlists.map((playlist: PlaylistType, playlistIndex: number) => {
+      return (
+        <div className={classes.playlist} key={`playlist-${playlistIndex * 2}`}>
+          <Playlist
+            onPlaylistClick={() => handleClick(playlist)}
+            url={playlist?.images[0]?.url}
+          />
+        </div>
+      );
+    });
+  };
 
   const { userPlaylists } = data;
 
   return (
-    <div>
-      <h1 className={classes.header}>Choose a playlist</h1>
-      <div className={classes.playlists}>
-        {renderPlaylists(userPlaylists.items)}
+    <>
+      <div className={classes.header}>
+        <div className={classes.chooseText}>
+          Choose a playlist to get started
+        </div>
+        <div>
+          <Button
+            color="primary"
+            variant="contained"
+            disabled={!selectedPlaylists.length}
+          >
+            Continue
+          </Button>
+        </div>
       </div>
-    </div>
+      <div className={classes.playlistsContainer}>
+        <div className={classes.playlistsHeader}>Your Playlists</div>
+        <div className={classes.playlists}>{renderPlaylists(userPlaylists.items)}</div>
+      </div>
+    </>
   );
 };
 

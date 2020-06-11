@@ -1,29 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
 import { Card, CardMedia } from '../Card/index';
+
+import { Button } from '@material-ui/core';
 
 const useStyles = createUseStyles({
   card: {
     border: '1px solid #CCC',
     borderRadius: 3,
-    height: 300,
-    width: 300,
+    height: 200,
+    width: 200,
   },
 
   media: {
-    height: 300,
+    height: 200,
   },
 });
 
 type PlaylistProps = {
-  // url of the playlist image
+  onPlaylistClick: () => void,
   url: string,
 };
 
-const Playlist = ({ url }: PlaylistProps) => {
+const Playlist = ({ onPlaylistClick, url }: PlaylistProps) => {
   const classes = useStyles();
+  const [selected, setSelected] = useState(false);
+
+  const unselectedStyles = {
+    border: '3px solid transparent',
+    borderRadius: 3,
+  };
+
+  const selectedStyles = {
+    border: '3px solid blue',
+    borderRadius: 3,
+  };
+
+  const handleClick = () => {
+    onPlaylistClick();
+
+    setSelected(!selected);
+  };
+
   return (
-    <div>
+    <Button
+      style={selected ? selectedStyles : unselectedStyles}
+      onClick={handleClick}
+      disableRipple
+    >
       <Card className={classes.card}>
         <CardMedia
           alt="playlist"
@@ -31,7 +55,7 @@ const Playlist = ({ url }: PlaylistProps) => {
           src={url}
         />
       </Card>
-    </div>
+    </Button>
   );
 };
 
