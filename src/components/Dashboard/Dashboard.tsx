@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import {
+  Redirect,
+} from 'react-router-dom';
 import useAxios from 'axios-hooks';
 import { createUseStyles } from 'react-jss';
 import { Button } from '@material-ui/core';
@@ -38,7 +41,7 @@ const useStyles = createUseStyles({
 });
 
 type DashboardProps = {
-  credentials?: string | undefined
+  credentials?: string,
 };
 
 type PlaylistType = {
@@ -54,6 +57,7 @@ type ImageType = {
 const Dashboard = ({ credentials }: DashboardProps) => {
   const classes = useStyles();
   const [selectedPlaylists, setSelectedPlaylists] = useState<Array<PlaylistType>>([]);
+  const [redirect, setRedirect] = useState(false);
   const [{ data, error, loading }] = useAxios({
     url: `http://localhost:8888/user?${credentials}`,
     method: 'GET',
@@ -81,6 +85,10 @@ const Dashboard = ({ credentials }: DashboardProps) => {
     }
   };
 
+  const handleCreate = () => {
+    setRedirect(true);
+  };
+
   const renderPlaylists = (playlists: Array<PlaylistType>) => {
     return playlists.map((playlist: PlaylistType, playlistIndex: number) => {
       return (
@@ -94,10 +102,23 @@ const Dashboard = ({ credentials }: DashboardProps) => {
     });
   };
 
+  const redirectToCreate = () => {
+    return redirect
+      ? (
+        <Redirect to={{
+          pathname: '/create',
+          state: { data: { playlists: selectedPlaylists, credentials } },
+        }}
+        />
+      )
+      : null;
+  };
+
   const { userPlaylists } = data;
 
   return (
     <>
+      {redirectToCreate()}
       <div className={classes.header}>
         <div className={classes.chooseText}>
           Choose a playlist to get started
@@ -107,8 +128,9 @@ const Dashboard = ({ credentials }: DashboardProps) => {
             color="primary"
             variant="contained"
             disabled={!selectedPlaylists.length}
+            onClick={handleCreate}
           >
-            Continue
+            Create
           </Button>
         </div>
       </div>
