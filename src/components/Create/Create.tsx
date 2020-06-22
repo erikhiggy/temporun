@@ -1,8 +1,38 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
-import { Slider } from '@material-ui/core';
+import {
+  Button, Card, CardContent, Typography, Slider, TextField,
+} from '@material-ui/core';
 
 import useFeatures from './hooks/useFeatures';
+
+const useStyles = createUseStyles({
+  layout: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+
+  card: {
+    display: 'flex',
+    marginTop: '20px',
+    justifyContent: 'space-around',
+  },
+
+  form: {
+    display: 'flex',
+    alignItems: 'flex-end',
+  },
+
+  button: {
+    marginLeft: '40px',
+  },
+
+  slider: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+});
 
 type Feature = {
   id: string,
@@ -22,22 +52,6 @@ type CreateProps = {
   },
 };
 
-const useStyles = createUseStyles({
-  layout: {
-    display: 'flex',
-  },
-
-  slider: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: 250,
-  },
-
-  trackList: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-});
 
 const Create = ({ location }: CreateProps) => {
   const classes = useStyles();
@@ -64,7 +78,6 @@ const Create = ({ location }: CreateProps) => {
   };
 
   const handleSliderChange = (event: React.ChangeEvent<{}>, newValue: number | number[]) => {
-    console.log(newValue);
     setSliderValue(newValue as number[]);
   };
 
@@ -72,36 +85,43 @@ const Create = ({ location }: CreateProps) => {
     return features.map((feature) => feature.tempo);
   };
 
-  const mapOverFeatures = (features: Feature[], tempoRange: number[]) => {
-    return features
-      .filter(({ tempo }) => tempo >= tempoRange[0] && tempo <= tempoRange[1])
-      .map((feature: Feature, featureIndex: number) => {
-        return (
-          <div key={`${featureIndex * 3}-key`}>
-            ID: {feature.id}
-            Tempo: {feature.tempo}
-          </div>
-        );
-      });
-  };
-
   return (
     <div className={classes.layout}>
-      <div className={classes.trackList}>
-        Track Ids:
-        {mapOverFeatures(data?.featureData?.trackFeatures?.audio_features, sliderValue)}
-      </div>
-      <div className={classes.slider}>
-        <Slider
-          value={sliderValue}
-          valueLabelDisplay="auto"
-          onChange={handleSliderChange}
-          aria-labelledby="range-slider"
-          getAriaValueText={valueToString}
-          min={getMinValue(getTempos(data?.featureData?.trackFeatures?.audio_features))}
-          max={getMaxValue(getTempos(data?.featureData?.trackFeatures?.audio_features))}
-        />
-      </div>
+      <Card className={classes.card}>
+        <CardContent>
+          <Typography>
+            Select a tempo range for your run
+          </Typography>
+          <br />
+          <div className={classes.slider}>
+            <Slider
+              value={sliderValue}
+              valueLabelDisplay="auto"
+              onChange={handleSliderChange}
+              aria-labelledby="range-slider"
+              getAriaValueText={valueToString}
+              min={getMinValue(getTempos(data?.featureData?.trackFeatures?.audio_features))}
+              max={getMaxValue(getTempos(data?.featureData?.trackFeatures?.audio_features))}
+            />
+          </div>
+          <Typography>
+            Choose a snazzy name for your new playlist
+          </Typography>
+          <form className={classes.form} noValidate autoComplete="off">
+            <TextField id="standard-basic" label="Name" />
+            <div className={classes.button}>
+              <Button
+                color="primary"
+                variant="outlined"
+                size="small"
+                type="submit"
+              >
+                Make Playlist
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 };
