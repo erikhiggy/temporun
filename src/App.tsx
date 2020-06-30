@@ -2,17 +2,15 @@ import React from 'react';
 import {
   BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
-import Home from './components/Home/Home';
-import Connect from './components/Connect/Connect';
-import Dashboard from './components/Dashboard/Dashboard';
-import Navbar from './components/Navbar/Navbar';
-import Create from './components/Create/Create';
+import Home from './pages/Home/Home';
+import Connect from './pages/Connect/Connect';
+import Dashboard from './pages/Dashboard/Dashboard';
+import Create from './pages/Create/Create';
 
 const App = () => {
   const credentials = document.cookie;
   return (
     <div>
-      <Navbar />
       <Router>
         <div>
           <Switch>

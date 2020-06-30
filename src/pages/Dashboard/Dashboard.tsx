@@ -5,7 +5,7 @@ import {
 import useAxios from 'axios-hooks';
 import { createUseStyles } from 'react-jss';
 import { Button } from '@material-ui/core';
-import Playlist from '../Playlist/Playlist';
+import Playlist from '../../components/Playlist/Playlist';
 
 const useStyles = createUseStyles({
   chooseText: {

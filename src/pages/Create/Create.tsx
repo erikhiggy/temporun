@@ -3,8 +3,8 @@ import { createUseStyles } from 'react-jss';
 import {
   Button, Card, CardContent, Typography, Slider, TextField,
 } from '@material-ui/core';
-
-import useFeatures from './hooks/useFeatures';
+import useFeatures from '../../hooks/useFeatures';
+import CreatedPlaylist from '../../components/CreatedPlaylist/CreatedPlaylist';
 
 const useStyles = createUseStyles({
   layout: {
@@ -36,7 +36,8 @@ const useStyles = createUseStyles({
 
 type Feature = {
   id: string,
-  tempo: number
+  tempo: number,
+  uri: string
 };
 
 type CreateProps = {
@@ -56,10 +57,13 @@ type CreateProps = {
 const Create = ({ location }: CreateProps) => {
   const classes = useStyles();
   const playlistId = location?.state?.data?.playlists?.[0]?.id;
-  const creds = location?.state?.data?.credentials;
+  const credentials = location?.state?.data?.credentials;
 
-  const { data, loading, error } = useFeatures({ credentials: creds, playlistId });
+  const { data, loading, error } = useFeatures({ credentials, playlistId });
   const [sliderValue, setSliderValue] = React.useState<number[]>([0, 250]);
+  const [createdPlaylistModal, setCreatedPlaylistModal] = React.useState(false);
+  const [tracks, setTracks] = React.useState<string[]>([]);
+  const [playlistName, setPlaylistName] = React.useState('');
 
   if (loading || error || !data) {
     return null;
@@ -81,9 +85,26 @@ const Create = ({ location }: CreateProps) => {
     setSliderValue(newValue as number[]);
   };
 
+  const handleMakePlaylist = (event: React.MouseEvent | React.FormEvent, features: Feature[]) => {
+    if (event) {
+      event.preventDefault();
+    }
+
+    // filter the features based on tempo and store them in state
+    const filteredFeatures = features.filter((feature) => {
+      return feature.tempo >= sliderValue[0] && feature.tempo <= sliderValue[1];
+    }).map((feature) => feature.uri);
+
+    setTracks(filteredFeatures);
+    // open the new playlist modal
+    setCreatedPlaylistModal(true);
+  };
+
   const getTempos = (features: Feature[]) => {
     return features.map((feature) => feature.tempo);
   };
+
+  const features = data?.featureData?.trackFeatures?.audio_features;
 
   return (
     <div className={classes.layout}>
@@ -100,17 +121,27 @@ const Create = ({ location }: CreateProps) => {
               onChange={handleSliderChange}
               aria-labelledby="range-slider"
               getAriaValueText={valueToString}
-              min={getMinValue(getTempos(data?.featureData?.trackFeatures?.audio_features))}
-              max={getMaxValue(getTempos(data?.featureData?.trackFeatures?.audio_features))}
+              min={getMinValue(getTempos(features))}
+              max={getMaxValue(getTempos(features))}
             />
           </div>
           <Typography>
             Choose a snazzy name for your new playlist
           </Typography>
-          <form className={classes.form} noValidate autoComplete="off">
-            <TextField id="standard-basic" label="Name" />
+          <form
+            className={classes.form}
+            noValidate
+            autoComplete="off"
+            onSubmit={(event) => handleMakePlaylist(event, features)}
+          >
+            <TextField
+              id="standard-basic"
+              label="Name"
+              onChange={(event) => setPlaylistName(event.target.value)}
+            />
             <div className={classes.button}>
               <Button
+                onClick={(event) => handleMakePlaylist(event, features)}
                 color="primary"
                 variant="outlined"
                 size="small"
@@ -122,6 +153,14 @@ const Create = ({ location }: CreateProps) => {
           </form>
         </CardContent>
       </Card>
+      {createdPlaylistModal
+      && (
+      <CreatedPlaylist
+        playlistName={playlistName}
+        credentials={credentials}
+        tracks={tracks}
+      />
+      )}
     </div>
   );
 };
