@@ -1,4 +1,5 @@
 import useAxios from 'axios-hooks';
+import HOST from '../utils';
 
 type UsePlaylistType = {
   playlistName: string,
@@ -8,7 +9,7 @@ type UsePlaylistType = {
 
 const usePlaylist = ({ playlistName, credentials, tracks }: UsePlaylistType) => {
   const [{ data, loading, error }] = useAxios({
-    url: `http://localhost:8888/createPlaylist?playlistName=${playlistName}&${credentials}&tracks=${tracks}`,
+    url: `${HOST}/createPlaylist?playlistName=${playlistName}&${credentials}&tracks=${tracks}`,
     method: 'GET',
   });
 

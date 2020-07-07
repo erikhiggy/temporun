@@ -14,10 +14,26 @@ const App = () => {
       <Router>
         <div>
           <Switch>
-            <Route exact path="/" render={(props) => <Home {...props} credentials={credentials} />} />;
-            <Route exact path="/connect" component={Connect} />
-            <Route exact path="/dashboard" render={(props) => <Dashboard {...props} credentials={credentials} />} />;
-            <Route exact path="/create" component={Create} />
+            <Route
+              exact
+              path="/"
+              render={(props) => <Home {...props} credentials={credentials} />}
+            />;
+            <Route
+              exact
+              path="/connect"
+              component={Connect}
+            />
+            <Route
+              exact
+              path="/dashboard"
+              render={(props) => <Dashboard {...props} credentials={credentials} />}
+            />;
+            <Route
+              exact
+              path="/create"
+              component={Create}
+            />
           </Switch>
         </div>
       </Router>

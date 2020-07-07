@@ -1,4 +1,5 @@
 import useAxios from 'axios-hooks';
+import HOST from '../utils';
 
 type UseFeaturesType = {
   credentials?: string,
@@ -6,7 +7,7 @@ type UseFeaturesType = {
 };
 
 const useFeatures = ({ credentials, playlistId }: UseFeaturesType) => {
-  const [{ data, loading, error }] = useAxios(`http://localhost:8888/features?${credentials}&playlistId=${playlistId}`);
+  const [{ data, loading, error }] = useAxios(`${HOST}/features?${credentials}&playlistId=${playlistId}`);
 
   const featureData = data;
 

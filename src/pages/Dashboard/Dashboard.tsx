@@ -4,8 +4,9 @@ import {
 } from 'react-router-dom';
 import useAxios from 'axios-hooks';
 import { createUseStyles } from 'react-jss';
-import { Button } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import Playlist from '../../components/Playlist/Playlist';
+import HOST from '../../utils';
 
 const useStyles = createUseStyles({
   chooseText: {
@@ -59,7 +60,7 @@ const Dashboard = ({ credentials }: DashboardProps) => {
   const [selectedPlaylists, setSelectedPlaylists] = useState<Array<PlaylistType>>([]);
   const [redirect, setRedirect] = useState(false);
   const [{ data, error, loading }] = useAxios({
-    url: `http://localhost:8888/user?${credentials}`,
+    url: `${HOST}/user?${credentials}`,
     method: 'GET',
   });
 
@@ -134,10 +135,10 @@ const Dashboard = ({ credentials }: DashboardProps) => {
           </Button>
         </div>
       </div>
-      <div className={classes.playlistsContainer}>
+      <Grid container xs={12}>
         <div className={classes.playlistsHeader}>Your Playlists</div>
         <div className={classes.playlists}>{renderPlaylists(userPlaylists.items)}</div>
-      </div>
+      </Grid>
     </>
   );
 };

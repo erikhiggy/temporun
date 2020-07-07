@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import { Button, Typography } from '@material-ui/core';
 import { createUseStyles } from 'react-jss';
+import HOST from '../../utils';
 
 const useStyles = createUseStyles({
   header: {
@@ -33,7 +34,7 @@ const Home = ({ credentials }: HomeProps) => {
   };
 
   const authorizeUser = async (path: string) => {
-    const url = `http://localhost:8888/authorize?${path}`;
+    const url = `${HOST}/authorize?${path}`;
     return axios.get(url);
   };
 

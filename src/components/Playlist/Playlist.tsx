@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
-import { Button } from '@material-ui/core';
-
-import { Card, CardMedia } from '../Card/index';
+import {
+  Card, CardActionArea, CardMedia, Grid,
+} from '@material-ui/core';
 
 const useStyles = createUseStyles({
   card: {
-    border: '1px solid #CCC',
-    borderRadius: 3,
-    height: 200,
-    width: 200,
-  },
-
-  media: {
-    height: 200,
+    maxWidth: 300,
   },
 });
 
@@ -27,12 +20,10 @@ const Playlist = ({ onPlaylistClick, url }: PlaylistProps) => {
   const [selected, setSelected] = useState(false);
 
   const unselectedStyles = {
-    border: '3px solid transparent',
     borderRadius: 3,
   };
 
   const selectedStyles = {
-    border: '3px solid blue',
     borderRadius: 3,
   };
 
@@ -43,19 +34,17 @@ const Playlist = ({ onPlaylistClick, url }: PlaylistProps) => {
   };
 
   return (
-    <Button
-      style={selected ? selectedStyles : unselectedStyles}
-      onClick={handleClick}
-      disableRipple
-    >
+    <Grid item xs={12} sm={6}>
       <Card className={classes.card}>
-        <CardMedia
-          alt="playlist"
-          className={classes.media}
-          src={url}
-        />
+        <CardActionArea onClick={handleClick} style={selected ? selectedStyles : unselectedStyles}>
+          <CardMedia
+            component="img"
+            src={url}
+            height={300}
+          />
+        </CardActionArea>
       </Card>
-    </Button>
+    </Grid>
   );
 };
 
