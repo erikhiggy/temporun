@@ -4,19 +4,29 @@ import {
 } from 'react-router-dom';
 import useAxios from 'axios-hooks';
 import { createUseStyles } from 'react-jss';
-import { Button, Grid } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import Playlist from '../../components/Playlist/Playlist';
 import HOST from '../../utils';
 
 const useStyles = createUseStyles({
   chooseText: {
     flex: 1,
-    fontSize: 18,
+    fontSize: 24,
+  },
+
+  grid: {
+    display: 'grid',
+    gridGap: 10,
+    gridTemplateColumns: 'auto auto auto auto auto',
+    padding: 10,
+  },
+
+  playlistItem: {
   },
 
   header: {
     display: 'flex',
-    margin: '60px 20px 40px 20px',
+    margin: '20px 10px 40px 10px',
   },
 
   playlistsContainer: {
@@ -28,11 +38,8 @@ const useStyles = createUseStyles({
   playlistsHeader: {
     display: 'flex',
     marginBottom: 20,
-  },
-
-  playlists: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    paddingLeft: 10,
+    fontSize: 18,
   },
 
   playlist: {
@@ -93,7 +100,7 @@ const Dashboard = ({ credentials }: DashboardProps) => {
   const renderPlaylists = (playlists: Array<PlaylistType>) => {
     return playlists.map((playlist: PlaylistType, playlistIndex: number) => {
       return (
-        <div className={classes.playlist} key={`playlist-${playlistIndex * 2}`}>
+        <div className={classes.playlistItem} key={`playlist-${playlistIndex * 2}`}>
           <Playlist
             onPlaylistClick={() => handleClick(playlist)}
             url={playlist?.images[0]?.url}
@@ -135,10 +142,10 @@ const Dashboard = ({ credentials }: DashboardProps) => {
           </Button>
         </div>
       </div>
-      <Grid container xs={12}>
-        <div className={classes.playlistsHeader}>Your Playlists</div>
-        <div className={classes.playlists}>{renderPlaylists(userPlaylists.items)}</div>
-      </Grid>
+      <div className={classes.playlistsHeader}>Your Playlists</div>
+      <div className={classes.grid}>
+        {renderPlaylists(userPlaylists.items)}
+      </div>
     </>
   );
 };

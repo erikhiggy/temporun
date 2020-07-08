@@ -34,17 +34,14 @@ const Playlist = ({ onPlaylistClick, url }: PlaylistProps) => {
   };
 
   return (
-    <Grid item xs={12} sm={6}>
-      <Card className={classes.card}>
-        <CardActionArea onClick={handleClick} style={selected ? selectedStyles : unselectedStyles}>
-          <CardMedia
-            component="img"
-            src={url}
-            height={300}
-          />
-        </CardActionArea>
-      </Card>
-    </Grid>
+    <Card className={classes.card}>
+      <CardActionArea onClick={handleClick} style={selected ? selectedStyles : unselectedStyles}>
+        <CardMedia
+          component="img"
+          src={url}
+        />
+      </CardActionArea>
+    </Card>
   );
 };
 
