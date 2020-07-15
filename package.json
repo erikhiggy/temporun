@@ -2,6 +2,10 @@
   "name": "temporun",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "npm": "6.4.1",
+    "node": "10.12.0"
+  },
   "dependencies": {
     "@material-ui/core": "^4.9.11",
     "@testing-library/jest-dom": "^4.2.4",
