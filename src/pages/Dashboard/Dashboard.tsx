@@ -94,8 +94,8 @@ const Dashboard = ({ credentials }: DashboardProps) => {
   const renderPlaylists = (playlists: Array<PlaylistType>) => {
     return playlists.map((playlist: PlaylistType, playlistIndex: number) => {
       return (
-        <Grid item xs={6} sm={4} md={3} lg={2}>
-          <div className={classes.playlistItem} key={`playlist-${playlistIndex * 2}`}>
+        <Grid item xs={6} sm={4} md={3} lg={2} key={`playlist-${playlistIndex * 2}`}>
+          <div className={classes.playlistItem}>
             <Playlist
               onPlaylistClick={() => handleClick(playlist)}
               url={playlist?.images[0]?.url}
@@ -125,7 +125,7 @@ const Dashboard = ({ credentials }: DashboardProps) => {
       {redirectToCreate()}
       <div className={classes.header}>
         <div className={classes.chooseText}>
-          Choose a playlist to get started
+          Choose playlist
         </div>
         <div>
           <Button

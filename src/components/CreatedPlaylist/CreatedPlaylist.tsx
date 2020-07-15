@@ -61,7 +61,7 @@ const CreatedPlaylist = ({ playlistName, credentials, tracks }: CreatedPlaylistT
 
   const { data, loading, error } = usePlaylist({ playlistName, credentials, tracks });
 
-  if (!data || error) {
+  if (!data || error || loading) {
     return null;
   }
 

@@ -21,10 +21,12 @@ const Playlist = ({ onPlaylistClick, url }: PlaylistProps) => {
 
   const unselectedStyles = {
     borderRadius: 3,
+    border: '3px solid transparent',
   };
 
   const selectedStyles = {
     borderRadius: 3,
+    border: '3px solid blue',
   };
 
   const handleClick = () => {
