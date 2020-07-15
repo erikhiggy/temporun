@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
 import {
-  Card, CardActionArea, CardMedia, Grid,
+  Card, CardActionArea, CardMedia,
 } from '@material-ui/core';
 
 const useStyles = createUseStyles({

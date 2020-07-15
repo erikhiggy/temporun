@@ -1,8 +1,21 @@
 import React from 'react';
 
-const Navbar = () => {
+type NavbarProps = {
+  children?: React.ReactNode | React.ReactNodeArray
+};
+
+const Navbar = ({ children }: NavbarProps) => {
+  const navbarStyles = {
+    width: '100%',
+    height: '60px',
+    backgroundColor: '#FFF',
+    boxShadow: '1px 1px #CCC',
+  };
+
   return (
-    <div style={{ width: '100%', height: '60px', backgroundColor: '#CCC' }} />
+    <div style={navbarStyles}>
+      {children}
+    </div>
   );
 };
 

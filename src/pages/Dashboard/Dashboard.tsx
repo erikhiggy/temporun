@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import useAxios from 'axios-hooks';
 import { createUseStyles } from 'react-jss';
-import { Button } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import Playlist from '../../components/Playlist/Playlist';
 import HOST from '../../utils';
 
@@ -14,14 +14,8 @@ const useStyles = createUseStyles({
     fontSize: 24,
   },
 
-  grid: {
-    display: 'grid',
-    gridGap: 10,
-    gridTemplateColumns: 'auto auto auto auto auto',
-    padding: 10,
-  },
-
   playlistItem: {
+    padding: 10,
   },
 
   header: {
@@ -100,12 +94,14 @@ const Dashboard = ({ credentials }: DashboardProps) => {
   const renderPlaylists = (playlists: Array<PlaylistType>) => {
     return playlists.map((playlist: PlaylistType, playlistIndex: number) => {
       return (
-        <div className={classes.playlistItem} key={`playlist-${playlistIndex * 2}`}>
-          <Playlist
-            onPlaylistClick={() => handleClick(playlist)}
-            url={playlist?.images[0]?.url}
-          />
-        </div>
+        <Grid item xs={6} sm={4} md={3} lg={2}>
+          <div className={classes.playlistItem} key={`playlist-${playlistIndex * 2}`}>
+            <Playlist
+              onPlaylistClick={() => handleClick(playlist)}
+              url={playlist?.images[0]?.url}
+            />
+          </div>
+        </Grid>
       );
     });
   };
@@ -143,9 +139,9 @@ const Dashboard = ({ credentials }: DashboardProps) => {
         </div>
       </div>
       <div className={classes.playlistsHeader}>Your Playlists</div>
-      <div className={classes.grid}>
+      <Grid container>
         {renderPlaylists(userPlaylists.items)}
-      </div>
+      </Grid>
     </>
   );
 };
