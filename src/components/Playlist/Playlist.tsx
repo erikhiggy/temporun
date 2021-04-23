@@ -11,11 +11,12 @@ const useStyles = createUseStyles({
 });
 
 type PlaylistProps = {
+  name: string,
   onPlaylistClick: () => void,
   url: string,
 };
 
-const Playlist = ({ onPlaylistClick, url }: PlaylistProps) => {
+const Playlist = ({ name, onPlaylistClick, url }: PlaylistProps) => {
   const classes = useStyles();
   const [selected, setSelected] = useState(false);
 
@@ -36,14 +37,17 @@ const Playlist = ({ onPlaylistClick, url }: PlaylistProps) => {
   };
 
   return (
-    <Card className={classes.card}>
-      <CardActionArea onClick={handleClick} style={selected ? selectedStyles : unselectedStyles}>
-        <CardMedia
-          component="img"
-          src={url}
-        />
-      </CardActionArea>
-    </Card>
+    <>
+      <Card className={classes.card}>
+        <CardActionArea onClick={handleClick} style={selected ? selectedStyles : unselectedStyles}>
+          <h4>{name}</h4>
+          <CardMedia
+            component="img"
+            src={url}
+          />
+        </CardActionArea>
+      </Card>
+    </>
   );
 };
 

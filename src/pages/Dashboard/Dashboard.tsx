@@ -6,7 +6,7 @@ import useAxios from 'axios-hooks';
 import { createUseStyles } from 'react-jss';
 import { Button, Grid } from '@material-ui/core';
 import Playlist from '../../components/Playlist/Playlist';
-import HOST from '../../utils';
+import { LOCAL, HOST } from '../../utils';
 
 const useStyles = createUseStyles({
   chooseText: {
@@ -61,7 +61,7 @@ const Dashboard = ({ credentials }: DashboardProps) => {
   const [selectedPlaylists, setSelectedPlaylists] = useState<Array<PlaylistType>>([]);
   const [redirect, setRedirect] = useState(false);
   const [{ data, error, loading }] = useAxios({
-    url: `${HOST}/user?${credentials}`,
+    url: `${LOCAL}/user?${credentials}`,
     method: 'GET',
   });
 
@@ -97,6 +97,7 @@ const Dashboard = ({ credentials }: DashboardProps) => {
         <Grid item xs={6} sm={4} md={3} lg={2} key={`playlist-${playlistIndex * 2}`}>
           <div className={classes.playlistItem}>
             <Playlist
+              name={playlist?.name}
               onPlaylistClick={() => handleClick(playlist)}
               url={playlist?.images[0]?.url}
             />
@@ -138,7 +139,6 @@ const Dashboard = ({ credentials }: DashboardProps) => {
           </Button>
         </div>
       </div>
-      <div className={classes.playlistsHeader}>Your Playlists</div>
       <Grid container>
         {renderPlaylists(userPlaylists.items)}
       </Grid>

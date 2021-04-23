@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import { Button, Typography } from '@material-ui/core';
 import { createUseStyles } from 'react-jss';
-import HOST from '../../utils';
+import { LOCAL, HOST } from '../../utils';
 
 const useStyles = createUseStyles({
   header: {
@@ -34,7 +34,7 @@ const Home = ({ credentials }: HomeProps) => {
   };
 
   const authorizeUser = async (path: string) => {
-    const url = `${HOST}/authorize?${path}`;
+    const url = `${LOCAL}/authorize?${path}`;
     return axios.get(url);
   };
 
@@ -66,7 +66,7 @@ const Home = ({ credentials }: HomeProps) => {
   return (
     <>
       <div className={classes.header}>
-        <h1>Tempo Run</h1>
+        <h1>Temporun</h1>
       </div>
       <div className={classes.about}>
         <h2>Optimizing your run through data</h2>
