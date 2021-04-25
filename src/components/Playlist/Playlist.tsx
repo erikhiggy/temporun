@@ -40,7 +40,7 @@ const Playlist = ({ name, onPlaylistClick, url }: PlaylistProps) => {
     <>
       <Card className={classes.card}>
         <CardActionArea onClick={handleClick} style={selected ? selectedStyles : unselectedStyles}>
-          <h4>{name}</h4>
+          <p>{name}</p>
           <CardMedia
             component="img"
             src={url}

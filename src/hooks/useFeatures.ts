@@ -1,13 +1,15 @@
 import useAxios from 'axios-hooks';
-import { LOCAL, HOST } from '../utils';
+import getEnv from '../utils';
 
 type UseFeaturesType = {
   credentials?: string,
-  playlistId: string
+  playlistIds: string[]
 };
 
-const useFeatures = ({ credentials, playlistId }: UseFeaturesType) => {
-  const [{ data, loading, error }] = useAxios(`${LOCAL}/features?${credentials}&playlistId=${playlistId}`);
+const useFeatures = ({ credentials, playlistIds }: UseFeaturesType) => {
+  const HOST = getEnv(process.env.REACT_APP_NODE_ENV);
+  const playlistIdsQueryParam = playlistIds.join(',');
+  const [{ data, loading, error }] = useAxios(`${HOST}/features?${credentials}&playlistIds=${playlistIdsQueryParam}`);
 
   const featureData = data;
 

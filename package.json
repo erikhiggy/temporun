@@ -28,6 +28,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "dev": "export REACT_APP_NODE_ENV=development && react-scripts start",
+    "prod": "export REACT_APP_NODE_ENV=production && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

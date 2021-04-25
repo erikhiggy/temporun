@@ -56,10 +56,11 @@ type CreateProps = {
 
 const Create = ({ location }: CreateProps) => {
   const classes = useStyles();
-  const playlistId = location?.state?.data?.playlists?.[0]?.id;
+
+  const playlistIds = location?.state?.data?.playlists?.map((playlist) => playlist.id);
   const credentials = location?.state?.data?.credentials;
 
-  const { data, loading, error } = useFeatures({ credentials, playlistId });
+  const { data, loading, error } = useFeatures({ credentials, playlistIds });
   const [sliderValue, setSliderValue] = React.useState<number[]>([0, 250]);
   const [createdPlaylistModal, setCreatedPlaylistModal] = React.useState(false);
   const [tracks, setTracks] = React.useState<string[]>([]);

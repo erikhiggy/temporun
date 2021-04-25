@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import { Button, Typography } from '@material-ui/core';
 import { createUseStyles } from 'react-jss';
-import { LOCAL, HOST } from '../../utils';
+import getEnv from '../../utils';
 
 const useStyles = createUseStyles({
   header: {
@@ -28,13 +28,14 @@ type HomeProps = {
 };
 
 const Home = ({ credentials }: HomeProps) => {
+  const HOST = getEnv(process.env.REACT_APP_NODE_ENV);
   const classes = useStyles();
   const handleConnect = () => {
     window.location.href = '/connect';
   };
 
   const authorizeUser = async (path: string) => {
-    const url = `${LOCAL}/authorize?${path}`;
+    const url = `${HOST}/authorize?${path}`;
     return axios.get(url);
   };
 

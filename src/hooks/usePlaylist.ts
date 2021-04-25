@@ -1,5 +1,5 @@
 import useAxios from 'axios-hooks';
-import { LOCAL, HOST } from '../utils';
+import getEnv from '../utils';
 
 type UsePlaylistType = {
   playlistName: string,
@@ -8,8 +8,9 @@ type UsePlaylistType = {
 };
 
 const usePlaylist = ({ playlistName, credentials, tracks }: UsePlaylistType) => {
+  const HOST = getEnv(process.env.REACT_APP_NODE_ENV);
   const [{ data, loading, error }] = useAxios({
-    url: `${LOCAL}/createPlaylist?playlistName=${playlistName}&${credentials}&tracks=${tracks}`,
+    url: `${HOST}/createPlaylist?playlistName=${playlistName}&${credentials}&tracks=${tracks}`,
     method: 'GET',
   });
 

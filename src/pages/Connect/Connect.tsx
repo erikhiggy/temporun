@@ -1,8 +1,9 @@
 import useAxios from 'axios-hooks';
-import { LOCAL, HOST } from '../../utils';
+import getEnv from '../../utils';
 
 const Connect = () => {
-  const [{ data, error, loading }] = useAxios(`${LOCAL}/get-auth-url`);
+  const HOST = getEnv(process.env.REACT_APP_NODE_ENV);
+  const [{ data, error, loading }] = useAxios(`${HOST}/get-auth-url`);
 
   if (!data || error || loading) {
     return null;

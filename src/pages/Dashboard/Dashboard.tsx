@@ -6,7 +6,7 @@ import useAxios from 'axios-hooks';
 import { createUseStyles } from 'react-jss';
 import { Button, Grid } from '@material-ui/core';
 import Playlist from '../../components/Playlist/Playlist';
-import { LOCAL, HOST } from '../../utils';
+import getEnv from '../../utils';
 
 const useStyles = createUseStyles({
   chooseText: {
@@ -60,8 +60,9 @@ const Dashboard = ({ credentials }: DashboardProps) => {
   const classes = useStyles();
   const [selectedPlaylists, setSelectedPlaylists] = useState<Array<PlaylistType>>([]);
   const [redirect, setRedirect] = useState(false);
+  const HOST = getEnv(process.env.REACT_APP_NODE_ENV);
   const [{ data, error, loading }] = useAxios({
-    url: `${LOCAL}/user?${credentials}`,
+    url: `${HOST}/user?${credentials}`,
     method: 'GET',
   });
 
