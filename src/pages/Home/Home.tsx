@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import { Button, Typography } from '@material-ui/core';
 import { createUseStyles } from 'react-jss';
-import HOST from '../../utils';
+import getEnv from '../../utils';
 
 const useStyles = createUseStyles({
   header: {
@@ -28,6 +28,7 @@ type HomeProps = {
 };
 
 const Home = ({ credentials }: HomeProps) => {
+  const HOST = getEnv(process.env.REACT_APP_NODE_ENV);
   const classes = useStyles();
   const handleConnect = () => {
     window.location.href = '/connect';
@@ -66,7 +67,7 @@ const Home = ({ credentials }: HomeProps) => {
   return (
     <>
       <div className={classes.header}>
-        <h1>Tempo Run</h1>
+        <h1>Temporun</h1>
       </div>
       <div className={classes.about}>
         <h2>Optimizing your run through data</h2>
