@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Redirect,
 } from 'react-router-dom';
@@ -7,8 +7,21 @@ import { createUseStyles } from 'react-jss';
 import { Button, Grid } from '@material-ui/core';
 import Playlist from '../../components/Playlist/Playlist';
 import getEnv from '../../utils';
+import Loader from '../../components/Loader/Loader';
 
 const useStyles = createUseStyles({
+  loaderWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    paddingTop: 50,
+  },
+
+  loadMoreButton: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: 20,
+  },
+
   chooseText: {
     flex: 1,
     fontSize: 24,
@@ -60,14 +73,30 @@ const Dashboard = ({ credentials }: DashboardProps) => {
   const classes = useStyles();
   const [selectedPlaylists, setSelectedPlaylists] = useState<Array<PlaylistType>>([]);
   const [redirect, setRedirect] = useState(false);
+  const [page, setPage] = useState(0);
+  const [playlistData, setPlaylistData] = useState<Array<PlaylistType>>([]);
   const HOST = getEnv(process.env.REACT_APP_NODE_ENV);
   const [{ data, error, loading }] = useAxios({
-    url: `${HOST}/user?${credentials}`,
+    url: `${HOST}/user?${credentials}&page=${page}`,
     method: 'GET',
   });
 
-  if (!data || error || loading) {
-    return null;
+  useEffect(() => {
+    if (data) {
+      setPlaylistData([...playlistData, ...data.userPlaylists.items]);
+    }
+  }, [data]);
+
+  if (!data && loading) {
+    return (
+      <div className={classes.loaderWrapper}>
+        <Loader loading={loading} />
+      </div>
+    );
+  }
+
+  if (!data && error && !loading) {
+    return <div>An error occurred fetching playlists!</div>;
   }
 
   const addPlaylist = (playlist: PlaylistType) => {
@@ -90,6 +119,10 @@ const Dashboard = ({ credentials }: DashboardProps) => {
 
   const handleCreate = () => {
     setRedirect(true);
+  };
+
+  const handleLoadMore = () => {
+    setPage(page + 1);
   };
 
   const renderPlaylists = (playlists: Array<PlaylistType>) => {
@@ -120,8 +153,6 @@ const Dashboard = ({ credentials }: DashboardProps) => {
       : null;
   };
 
-  const { userPlaylists } = data;
-
   return (
     <>
       {redirectToCreate()}
@@ -141,8 +172,11 @@ const Dashboard = ({ credentials }: DashboardProps) => {
         </div>
       </div>
       <Grid container>
-        {renderPlaylists(userPlaylists.items)}
+        {renderPlaylists(playlistData)}
       </Grid>
+      <div className={classes.loadMoreButton}>
+        <Button color="primary" variant="contained" onClick={handleLoadMore}>Load More</Button>
+      </div>
     </>
   );
 };
