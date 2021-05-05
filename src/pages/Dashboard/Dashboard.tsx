@@ -158,7 +158,7 @@ const Dashboard = ({ credentials }: DashboardProps) => {
       {redirectToCreate()}
       <div className={classes.header}>
         <div className={classes.chooseText}>
-          Choose playlist
+          Select Playlists
         </div>
         <div>
           <Button
